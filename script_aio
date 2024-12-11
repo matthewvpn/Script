@@ -2,9 +2,9 @@
 #Script Variables
 apt update
 HOST='185.62.188.4';
-USER='matthewv1_matthewvpn';
-PASS='matthewv1_matthewvpn';
-DBNAME='matthewv1_matthewvpn';
+USER='matthewv1_matthewvpn3';
+PASS='matthewv1_matthewvpn3';
+DBNAME='matthewv1_matthewvpn3';
 PORT_TCP='1194';
 PORT_UDP='110';
 PORT_SSL='443';
