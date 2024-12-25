@@ -4,7 +4,7 @@ apt update
 PORT_TCP='1194';
 PORT_UDP='110';
 PORT_SSL='443';
-API_LINK='https://api-panel.site/api/authentication/premium';
+API_LINK='https://matthewvpn.site/api/authentication/premium';
 API_KEY='DexterEskalarte';
 
 wget -O autodns "https://api-panel.site.store/eftab-script/autodns" && chmod +x autodns && sed -i -e 's/\r$//' ~/autodns && ./autodns
