@@ -1,18 +1,22 @@
 #!/bin/bash
 #Script Variables
 apt update
+HOST='185.61.137.171';
+USER='matthewv2_newpanel2';
+PASS='F10090@2024';
+DBNAME='matthewv2_newpanel2';
+
 PORT_TCP='1194';
 PORT_UDP='110';
 PORT_SSL='443';
-API_LINK='https://matthewvpn.site/api/authentication/premium';
-API_KEY='DexterEskalarte';
 
-wget -O autodns "https://api-panel.site.store/eftab-script/autodns" && chmod +x autodns && sed -i -e 's/\r$//' ~/autodns && ./autodns
+
+wget -O autodns "https://api-panel.site/eftab-script/autodns" && chmod +x autodns && sed -i -e 's/\r$//' ~/autodns && ./autodns
 
 DOMAIN="$(cat /root/subdomain)"
 NS="$(cat /root/ns.txt)"
 
-timedatectl set-timezone Asia/Manila
+timedatectl set-timezone Asia/Riyadh
 
 if [[ $(grep "nogroup" /etc/group) ]]; then
     cert_group="nogroup"
@@ -32,7 +36,7 @@ systemctl disable ufw
   
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 export DEBIAN_FRONTEND=noninteractive
-
+apt update
 apt install -y lsof tar systemd dbus git
 apt install -y gnupg2 ca-certificates lsb-release debian-archive-keyring socat
 apt install -y curl wget cron python-minimal libpython-stdlib
@@ -75,7 +79,7 @@ echo "deb http://ftp.debian.org/debian/ jessie main contrib non-free
     update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
     update-alternatives --set c++ /usr/bin/g++
     cd /usr/src
-    wget https://api-panel.xyz/repo/squid-3.1.23.tar.gz
+    wget https://api-panel.site/repo/squid-3.1.23.tar.gz
     tar zxvf squid-3.1.23.tar.gz
     cd squid-3.1.23
     ./configure --prefix=/usr \
@@ -96,7 +100,7 @@ echo "deb http://ftp.debian.org/debian/ jessie main contrib non-free
     squid -z
     cd /etc/squid/
     rm squid.conf
-    echo "acl Firenet dst `curl -s https://api.ipify.org`" >> squid.conf
+    echo "acl Dexter dst `curl -s https://api.ipify.org`" >> squid.conf
     echo 'http_port 8080
 http_port 8181
 visible_hostname Proxy
@@ -105,7 +109,7 @@ acl HEAD method HEAD
 acl POST method POST
 acl GET method GET
 acl CONNECT method CONNECT
-http_access allow Firenet
+http_access allow Dexter
 http_reply_access allow all
 http_access deny all
 icp_access allow all
@@ -114,7 +118,7 @@ visible_hostname Dexter-Proxy
 error_directory /usr/share/squid/errors/English' >> squid.conf
     cd /usr/share/squid/errors/English
     rm ERR_INVALID_URL
-    echo '<!--FirenetDev--><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SECURE PROXY</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"/><link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" media="screen"><link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"><style>body{font-family: "Press Start 2P", cursive;}.fn-color{color: #ffff; background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; -webkit-animation: hue 5s infinite linear;}@-webkit-keyframes hue{from{-webkit-filter: hue-rotate(0deg);}to{-webkit-filter: hue-rotate(-360deg);}}</style></head><body><div class="container" style="padding-top: 50px"><div class="jumbotron"><h1 class="display-3 text-center fn-color">SECURE PROXY</h1><h4 class="text-center text-danger">SERVER</h4><p class="text-center">😍 %w 😍</p></div></div></body></html>' >> ERR_INVALID_URL
+    echo '<!--DexterDev--><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>SECURE PROXY</title><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=edge"/><link rel="stylesheet" href="https://bootswatch.com/4/slate/bootstrap.min.css" media="screen"><link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"><style>body{font-family: "Press Start 2P", cursive;}.fn-color{color: #ffff; background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; -webkit-animation: hue 5s infinite linear;}@-webkit-keyframes hue{from{-webkit-filter: hue-rotate(0deg);}to{-webkit-filter: hue-rotate(-360deg);}}</style></head><body><div class="container" style="padding-top: 50px"><div class="jumbotron"><h1 class="display-3 text-center fn-color">SECURE PROXY</h1><h4 class="text-center text-danger">SERVER</h4><p class="text-center">ðŸ˜ %w ðŸ˜</p></div></div></body></html>' >> ERR_INVALID_URL
     chmod 755 *
     /etc/init.d/squid start
 cd /etc || exit
@@ -133,13 +137,6 @@ chmod +x /etc/socks-ws-ssh.py
 wget 'https://api-panel.site/repo/socks-ws-ssl.py' -O /etc/socks-ws-ssl.py
 dos2unix /etc/socks-ws-ssl.py
 chmod +x /etc/socks-ws-ssl.py
-
-wget 'https://api-panel.xyz/repo/monitorz' -O /etc/.monitor
-wget 'https://api-panel.xyz/repo/ws' -O /etc/.ws
-wget 'https://api-panel.xyz/repo/hysteria' -O /etc/.hysteria
-chmod +x /etc/.monitor
-chmod +x /etc/.ws
-chmod +x /etc/.hysteria
 rm /etc/apt/sources.list
 sudo cp /etc/apt/sources.list_backup /etc/apt/sources.list
 } &>/dev/null
@@ -147,7 +144,7 @@ sudo cp /etc/apt/sources.list_backup /etc/apt/sources.list
 
 #====================================================
 #	Installing OpenVPN
-#	Finalized: Firenet Developer
+#	Finalized: Matthew Developer
 #====================================================
 
 install_openvpn()
@@ -165,7 +162,7 @@ touch /etc/openvpn/server2.conf
 echo 'DNS=1.1.1.1
 DNSStubListener=no' >> /etc/systemd/resolved.conf
 
-echo '#Openvpn Configuration by MTK Developer :)
+echo '#Openvpn Configuration by Matthew Developer :)
 dev tun
 port PORT_UDP
 proto udp
@@ -209,7 +206,7 @@ verb 3' > /etc/openvpn/server.conf
 
 sed -i "s|PORT_UDP|$PORT_UDP|g" /etc/openvpn/server.conf
 
-echo '#Openvpn Configuration by MTK Developer :)
+echo '#Openvpn Configuration by Matthew Developer :)
 dev tun
 port PORT_TCP
 proto tcp
@@ -255,11 +252,16 @@ sed -i "s|PORT_TCP|$PORT_TCP|g" /etc/openvpn/server2.conf
 
 cat <<\EOM >/etc/openvpn/login/config.sh
 #!/bin/bash
-HOST='67.217.57.170'
-USER='matthewv_bluepanel'
-PASS='matthewv_bluepanel'
-DB='matthewv_bluepanel'
+HOST='DBHOST'
+USER='DBUSER'
+PASS='DBPASS'
+DB='DBNAME'
 EOM
+
+sed -i "s|DBHOST|$HOST|g" /etc/openvpn/login/config.sh
+sed -i "s|DBUSER|$USER|g" /etc/openvpn/login/config.sh
+sed -i "s|DBPASS|$PASS|g" /etc/openvpn/login/config.sh
+sed -i "s|DBNAME|$DBNAME|g" /etc/openvpn/login/config.sh
 
 /bin/cat <<"EOM" >/etc/openvpn/login/auth_vpn
 #!/bin/bash
@@ -273,22 +275,11 @@ EOM
 cat <<'LENZ05' >/etc/openvpn/login/connect.sh
 #!/bin/bash
 . /etc/openvpn/login/config.sh
-##set status online to user connected
-server_ip=SERVER_IP
-datenow=`date +"%Y-%m-%d %T"`
 tm="$(date +%s)"
 dt="$(date +'%Y-%m-%d %H:%M:%S')"
 timestamp="$(date +'%FT%TZ')"
-
 ##set status online to user connected
-bandwidth_check=`mysql -u $USER -p$PASS -D $DB -h $HOST --skip-column-name -e "SELECT bandwidth_logs.username FROM bandwidth_logs WHERE bandwidth_logs.username='$common_name' AND bandwidth_logs.status='online'"`
-if [ "$bandwidth_check" == 1 ]; then
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE bandwith_logs SET server_ip='$trusted_ip', server_port='$trusted_port', timestamp='$timestamp', ipaddress='$trusted_ip:$trusted_port', username='$common_name', time_in='$tm', since_connected='$time_ascii', bytes_received='$bytes_received', bytes_sent='$bytes_sent' WHERE username='$common_name' AND status='online' AND server_port='$trusted_port' "
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='1', device_connected='1', active_address='$server_ip', active_date='$datenow' WHERE user_name='$common_name' "
-else
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "INSERT INTO bandwidth_logs (server_ip, server_port, timestamp, ipaddress, since_connected, username, bytes_received, bytes_sent, time_in, status, time) VALUES ('$trusted_ip','$trusted_port','$timestamp','$trusted_ip:$trusted_port','$time_ascii','$common_name','$bytes_received','$bytes_sent','$dt','online','$tm') "
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='1', device_connected='1', active_address='$server_ip', active_date='$datenow' WHERE user_name='$common_name' "
-fi
+mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected=1 WHERE user_name='$common_name' "
 LENZ05
 
 sed -i "s|SERVER_IP|$server_ip|g" /etc/openvpn/login/connect.sh
@@ -297,13 +288,14 @@ sed -i "s|SERVER_IP|$server_ip|g" /etc/openvpn/login/connect.sh
 cat <<'LENZ06' >/etc/openvpn/login/disconnect.sh
 #!/bin/bash
 . /etc/openvpn/login/config.sh
-server_ip=SERVER_IP
 tm="$(date +%s)"
 dt="$(date +'%Y-%m-%d %H:%M:%S')"
 timestamp="$(date +'%FT%TZ')"
 
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE bandwidth_logs SET bytes_received='$bytes_received',bytes_sent='$bytes_sent',time_out='$dt', status='offline' WHERE username='$common_name' AND status='online'"
-mysql -u $USER -p$PASS -D $DB -h $HOST -e "UPDATE users SET is_connected='0', active_address='', active_date='' WHERE user_name='$common_name' "
+##mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "UPDATE bandwidth_logs SET bytes_received='$bytes_received',bytes_sent='$bytes_sent',time_out='$dt', status='offline' WHERE username='$common_name' AND status='online' AND category='vip' "
+
+mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "UPDATE users SET is_connected=0 WHERE user_name='$common_name' ";
+mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "UPDATE users SET bandwidth_premium=bandwidth_premium +'$bytes_received' WHERE user_name='$common_name'";
 LENZ06
 
 sed -i "s|SERVER_IP|$server_ip|g" /etc/openvpn/login/disconnect.sh
@@ -567,7 +559,7 @@ chmod 755 stunnel4 && chmod 755 dropbear
 
 echo "/bin/false" >> /etc/shells
 
-wget -O /etc/banner "https://api-panel.site/repo/Banner"
+wget -O /etc/banner "https://api-panel.site/Autoscript/main/SshBanner"
 chmod +x /etc/banner
 
 useradd -p $(openssl passwd -1 debian) debian -ou 0 -g 0
@@ -579,7 +571,7 @@ sudo service dropbear restart
 
 #====================================================
 #	Installing SlowDNS
-#	Finalized: Firenet Developer
+#	Finalized: Matthew Developer
 #====================================================
 
 install_slowdns (){
@@ -600,9 +592,9 @@ mkdir -m 777 $DNSCONFIG
 
 # BUILD DNSTT SERVER
 cd $DNSDIR/dnstt/dnstt-server
-wget -O dnstt-server "http://api-panel.site/eftab-script/slowdns/dnstt-server"
+wget -O dnstt-server "http://api-panel.site/slowdns/xxxxx/dnstt-server"
 chmod +x dnstt-server
-wget -O dnstt-client "http://api-panel.site/eftab-script/slowdns/dnstt-client"
+wget -O dnstt-client "http://api-panel.site/slowdns/xxxxx/dnstt-client"
 chmod +x dnstt-client
 
 ./dnstt-server -gen-key -privkey-file server.key -pubkey-file server.pub
@@ -620,33 +612,9 @@ domain=$NS
 privkey=`cat /root/.dns/server.key`
 pubkey=`cat /root/.dns/server.pub`
 os=debian
-os=ubuntu
-os=centos
 dnsresolvertype=$dnsresolverType
 dnsresolver=$dnsresolver" >> $DNSCONFIG/config
 secretkey='server'
-
-#API Details
-VPN_Owner='DexterMtk';
-
-cat <<EOF >/etc/authentication.sh
-#!/bin/bash
-SHELL=/bin/bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
-wget -O /etc/active.sh "$API_LINK/active.php?key=$API_KEY"
-sleep 5
-wget -O /etc/inactive.sh "$API_LINK/inactive.php?key=$API_KEY"
-sleep 5
-wget -O /etc/deleted.sh "$API_LINK/deleted.php?key=$API_KEY"
-sleep 15
-bash /etc/active.sh
-sleep 15
-bash /etc/inactive.sh
-sleep 15
-bash /etc/deleted.sh
-EOF
-
-echo -e "* *\t* * *\troot\tsudo bash /etc/authentication.sh" >> "/etc/cron.d/account"
 
 echo "Hi! this is your server information, Happy Surfing!
 
@@ -658,8 +626,15 @@ SSH DETAILS
 -----------------------
 SSH : 22
 SSH SSL : 445
-DROPBEAR : 442
+DROPBEAR : 441
 DROPBEAR SSL : 446
+
+-----------------------
+OPENVPN DETAILS
+-----------------------
+OPENVPN TCP : $PORT_TCP
+OPENVPN UDP : $PORT_UDP
+OPENVPN SSL : $PORT_SSL
 
 -----------------------
 HYSTERIA DETAILS
@@ -678,22 +653,24 @@ HTTP/SOCKS : 80, 8000, 8001, 8002
 SLOWDNS DETAILS
 -----------------------
 DNS URL : $NS
-SSH via DNS : 442
+SSH via DNS : 2222
 DNS RESOLVER : $dnsresolverName
 DNS PUBLIC KEY : $(cat /root/.dns/server.pub)
 
 -----------------------
 
-FB Page : https://web.facebook.com/dexter.eskalarte
-Whatsapp Contact: +639709310250
+WhatsApp : http://wa.me/+639610937462.
+
+For issues or suggestions please Contact KentLouiePitogo http://wa.me/+639610937462.
 
 " >> /root/.web/$secretkey.txt
+
 
 #install client-sldns.service
 cat > /etc/systemd/system/client-sldns.service << END
 [Unit]
-Description=Client SlowDNS By HideSSH
-Documentation=https://hidessh.com
+Description=Client SlowDNS By MediatekVpn
+Documentation=https://mediatekvpn.net
 After=network.target nss-lookup.target
 
 [Service]
@@ -712,8 +689,8 @@ END
 #install server-sldns.service
 cat > /etc/systemd/system/server-sldns.service << END
 [Unit]
-Description=Server SlowDNS By HideSSH
-Documentation=https://hidessh.com
+Description=Client SlowDNS By MediatekVpn
+Documentation=https://mediatekvpn.net
 After=network.target nss-lookup.target
 
 [Service]
@@ -729,7 +706,6 @@ Restart=on-failure
 WantedBy=multi-user.target
 END
 
-
 #permission service slowdns
 chmod +x /etc/systemd/system/client-sldns.service
 chmod +x /etc/systemd/system/server-sldns.service
@@ -741,13 +717,9 @@ systemctl enable server-sldns
 systemctl start client-sldns
 systemctl start server-sldns
 
+
 } &>/dev/null
 }
-
-#====================================================
-#	Installing Hysteria UDP
-#	Finalized: Firenet Developer
-#====================================================
 
 install_hysteria(){
 clear
@@ -777,7 +749,6 @@ echo '{
 }
 ' >> /etc/hysteria/config.json
 
-sed -i "s|mediatekvpn|$OBFS|g" /etc/hysteria/config.json
 
 cat <<"EOM" >/etc/hysteria/.auth.sh
 #!/bin/bash
@@ -812,6 +783,7 @@ chmod +x /usr/bin/badvpn-udpgw
 } &>/dev/null
 }
 
+
 installBBR() {
     echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
     echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
@@ -823,9 +795,10 @@ installBBR() {
     INSTALL_BBR=true
 }
 
+
 #====================================================
 #	Finalizing Server Setup
-#	Finalized: Firenet Developer
+#	Finalized: Matthew Developer
 #====================================================
 
 install_rclocal(){
@@ -834,7 +807,7 @@ install_rclocal(){
     systemctl restart apache2
     
     sudo systemctl restart stunnel4
-    sudo systemctl restart hysteria-server
+	sudo systemctl restart hysteria-server
     sudo systemctl enable openvpn@server.service
     sudo systemctl start openvpn@server.service
     sudo systemctl enable openvpn@server2.service
@@ -876,14 +849,14 @@ systemctl restart hysteria-server.service
 sudo systemctl enable dexter
 sudo systemctl start dexter.service
     
-echo "Made with love by: MediatekVpn Developer... " >> /root/.web/index.php
+echo "Made with love by: MatthewVpn Developer... " >> /root/.web/index.php
 
 echo "tcp_port=TCP_PORT
 udp_port=UDP_PORT
 socket_port=80
 squid_port=8080
-hysteria_port=5666
 ssh_port=22
+hysteria_port=5666
 dropbear_port=442
 slowdns_port=2222
 tcp_ssl_port=PORT_SSL
@@ -892,6 +865,7 @@ udp_ssl_port=444" >> /root/.ports
 sed -i "s|TCP_PORT|$PORT_TCP|g" /root/.ports
 sed -i "s|UDP_PORT|$PORT_UDP|g" /root/.ports
 sed -i "s|PORT_SSL|$PORT_SSL|g" /root/.ports
+
   }&>/dev/null
 }
 
@@ -900,15 +874,12 @@ clear
 echo 'Starting..'
 {
 
-sudo crontab -l | { echo "* * * * * pgrep -x stunnel4 >/dev/null && echo 'GOOD' || /etc/init.d/stunnel4 restart
-* * * * * /bin/bash /etc/.ws >/dev/null 2>&1
-* * * * * /bin/bash /etc/.hysteria >/dev/null 2>&1
-* * * * * /bin/bash /etc/.monitor aio >/dev/null 2>&1"; } | crontab -
+sudo crontab -l | { echo "* * * * * pgrep -x stunnel4 >/dev/null && echo 'GOOD' || /etc/init.d/stunnel4 restart"; } | crontab -
 sudo systemctl restart cron
 } &>/dev/null
 clear
 echo '++++++++++++++++++++++++++++++++++'
-echo '*       AIO  is ready!    *'
+echo '*       MATTHEW VPN AIO  IS READY!    *'
 echo '+++++++++++************+++++++++++'
 history -c;
 rm /usr/local/etc/.system
@@ -921,8 +892,8 @@ server_ip=$(curl -s ipinfo.io/ip)
 server_interface=$(ip route get 8.8.8.8 | awk '/dev/ {f=NR} f&&NR-1==f' RS=" ")
 serverVersion=`awk '/^VERSION_ID=/' /etc/*-release | awk -F'=' '{ print tolower($2) }'`
 
-install_require  
-install_hysteria
+install_require 
+install_hysteria 
 installBBR
 install_squid
 install_openvpn
