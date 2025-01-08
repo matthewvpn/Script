@@ -1,10 +1,10 @@
 #!/bin/bash
 #Script Variables
 apt update
-HOST='DB_HOST';
-USER='DB_USER';
-PASS='DB_PASS';
-DBNAME='DB_NAME';
+HOST='185.61.137.171';
+USER='matthewv2_newpanel2';
+PASS='F10090@2024';
+DBNAME='matthewv2_newpanel2';
 PORT_TCP='1194';
 PORT_UDP='110';
 PORT_SSL='443';
